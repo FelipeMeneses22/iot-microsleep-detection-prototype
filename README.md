@@ -55,7 +55,7 @@ I designed and developed an IoT-based prototype combining:
 
 At a high level, the solution can be represented as:
 
-> (Diagram "IoT Prototype")
+<img src="assets/iot_prototype.jpg" alt="IoT Prototype"/>
 
 ---
 
@@ -110,7 +110,7 @@ This allowed the prototype to demonstrate both immediate local feedback and remo
 
 The prototype can be understood as a data acquisition and processing pipeline.
 
-> (Diagram "Data Acquisition")
+<img src="assets/data_acquisition.jpg" alt="Data Acquisition and Processing"/>
 
 ### 1. Visual Monitoring
 
@@ -118,7 +118,7 @@ The camera provides visual information that is processed on the Raspberry Pi.
 
 The computer vision pipeline uses facial landmarks to obtain information about the eyes.
 
-> (Diagram "Visual Monitoring")
+<img src="assets/visual_monitoring.jpg" alt="Visual Monitoring"/>
 
 I implemented the computer vision pipeline using Python, OpenCV and MediaPipe.
 
@@ -130,7 +130,7 @@ I also implemented EAR-based eye analysis as an indicator for evaluating eye clo
 
 The physiological monitoring component uses an AD8232 ECG sensor connected to an ESP32.
 
-> (Diagram "Physiological Monitoring")
+<img src="assets/physiological_monitoring.jpg" alt="Physiological Monitoring"/>
 
 I developed the heart-rate monitoring module using an ESP32 and an AD8232 ECG sensor.
 
@@ -142,7 +142,7 @@ I implemented the acquisition and processing of physiological signal information
 
 The prototype used Wi-Fi connectivity and HTTP communication to transmit selected telemetry.
 
-> (Daigram "IoT Connectivity")
+<img src="assets/iot_connectivity.jpg" alt="IoT Connectivity"/>
 
 I implemented the IoT communication layer and integrated ThingSpeak for remote telemetry and visualization.
 
@@ -152,7 +152,7 @@ I implemented the IoT communication layer and integrated ThingSpeak for remote t
 
 When the detection logic identifies a condition relevant to the prototype, the system can trigger an alert.
 
-> (Diagram "Detection Event")
+<img src="assets/detection_event.jpg" alt="Detection Event"/>
 
 I implemented a local audio alert mechanism using a piezoelectric buzzer.
 
@@ -279,7 +279,7 @@ The prototype was evaluated through component-level and integrated functional te
 
 The validation process included:
 
-> (Diagram "Validation")
+<img src="assets/validation.jpg" alt="Validation"/>
 
 The testing activities focused on verifying:
 

@@ -291,8 +291,6 @@ These represent **future development opportunities**, not functionality claimed 
 
 ---
 
----
-
 # Repository Scope
 
 This repository is a **professional portfolio case study**, not a reproduction of the original academic project.

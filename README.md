@@ -1,337 +1,243 @@
 # IoT Microsleep Detection Prototype
 
-An IoT-based technological prototype designed to identify indicators associated with microsleep in motorcyclists and generate timely alert mechanisms.
+**IoT-based technological prototype for identifying microsleep-related indicators in motorcyclists through computer vision, physiological monitoring, embedded systems and real-time alert mechanisms.**
 
-This project was developed in 2024 as part of my Technology in Software Development degree project at Institución Universitaria Colegio Mayor del Cauca.
+Developed in **2024** as my Technology in Software Development degree project at **Institución Universitaria Colegio Mayor del Cauca**.
 
-The project focused on combining embedded systems, computer vision, physiological monitoring, IoT connectivity and alert mechanisms into a technological proof of concept intended for potential integration into a motorcycle helmet.
-
-> **Project type:** Academic technological prototype / Proof of concept\
-> **Year:** 2024\
+> **Project Type:** Academic Prototype · Proof of Concept
 > **Role:** Author & Developer
+> **Focus:** IoT · Computer Vision · Embedded Systems · Edge Processing · Physiological Monitoring
 
 ---
 
-## Project Overview
+## Overview
 
-Microsleep represents a potential safety risk during motorcycle riding because temporary reductions in alertness can affect a rider's ability to respond to their surroundings.
+Motorcycle riding requires sustained attention and alertness. Microsleep can temporarily reduce a rider's ability to perceive and respond to their environment.
 
-I designed and developed a technological prototype aimed at identifying indicators associated with microsleep through two complementary monitoring approaches:
+I designed and developed a technological prototype that combines **visual and physiological monitoring** to identify indicators associated with reduced alertness and trigger local or remote alerts.
 
-1. **Visual monitoring** based on computer vision and eye-state analysis.
-2. **Physiological monitoring** based on heart-rate information acquired through an ECG sensor.
+The system integrates two edge-processing platforms:
 
-The prototype combined these monitoring capabilities with IoT connectivity and local and remote alert mechanisms.
+- **Raspberry Pi** for camera-based visual monitoring.
+- **ESP32 + AD8232** for physiological signal acquisition.
 
-The overall objective was to explore how heterogeneous hardware and software components could be integrated into a single technological system capable of acquiring, processing, transmitting and responding to relevant data.
-
----
-
-## Problem
-
-Motorcycle riding requires continuous attention and an adequate level of alertness. Microsleep episodes can temporarily reduce a rider's ability to perceive and respond to their environment.
-
-The project addressed the challenge of identifying indicators associated with microsleep during motorcycle riding and providing an alert when the system detected conditions considered relevant to the prototype's detection logic.
-
-Rather than attempting to diagnose a medical condition, the system was designed as a technological proof of concept for detecting observable indicators associated with reduced alertness.
+These components are connected through an IoT layer for telemetry and remote visualization.
 
 ---
 
-## Solution
+## Problem + Solution
 
-I designed and developed an IoT-based prototype combining:
+### Problem
 
-- Computer vision for visual monitoring.
-- Facial landmark analysis for eye-state evaluation.
-- Eye Aspect Ratio (EAR) analysis.
-- Physiological signal acquisition through an ECG sensor.
-- Heart-rate monitoring.
-- Embedded processing using an ESP32.
-- Edge processing using a Raspberry Pi.
-- Wi-Fi and HTTP connectivity.
-- Cloud-based telemetry using ThingSpeak.
-- Local audio alerts.
-- Remote SMS notifications.
+Detecting reduced alertness during motorcycle riding requires monitoring indicators that can be observed without relying on a single data source.
 
-At a high level, the solution can be represented as:
+### Solution
 
-<img src="assets/iot_prototype.jpg" alt="IoT Prototype"/>
+The prototype combines:
+
+**Computer Vision**
+
+Camera → Face Mesh → Eye Landmarks → EAR → Eye Closure Analysis
+
+**Physiological Monitoring**
+
+AD8232 → ESP32 → ECG Processing → Heart-Rate Information
+
+**IoT & Alerting**
+
+Detection Logic → Local Buzzer / Remote SMS → ThingSpeak Telemetry
+
+The system was conceived as technology that could potentially be integrated into a motorcycle helmet; **helmet design, manufacturing and certification were outside the project scope.**
 
 ---
 
-## System Architecture
+# System Architecture
 
-The prototype followed a distributed architecture in which different devices were responsible for specific sensing and processing tasks.
+The prototype uses a distributed architecture where each platform performs a specialized processing role.
 
-### Raspberry Pi
+<img src="assets/iot_prototype_v2.jpg" alt="IoT Prototype v2"/>
 
-The Raspberry Pi acted as the main platform for the visual monitoring component.
+### Edge Processing
 
-It was responsible for:
+**Raspberry Pi**
+
+Handles the visual monitoring pipeline:
 
 - Camera acquisition.
 - Image processing.
-- Facial landmark analysis.
-- Eye-state analysis.
-- Microsleep-related indicator processing.
+- Face Mesh / facial landmarks.
+- Eye landmark extraction.
+- Eye Aspect Ratio (EAR) analysis.
+- Eye-closure evaluation.
 
 The visual processing pipeline was implemented using Python, OpenCV and MediaPipe.
 
-### ESP32
+**ESP32**
 
-The ESP32 was used as the embedded platform for physiological monitoring.
+Handles physiological monitoring:
 
-It was responsible for:
+- AD8232 ECG acquisition.
+- Signal processing.
+- Heart-rate information.
+- Wi-Fi connectivity.
+- Telemetry transmission.
 
-- Acquiring data from the AD8232 ECG sensor.
-- Processing physiological signal information.
-- Estimating heart-rate information.
-- Handling wireless connectivity.
-- Transmitting telemetry.
+### IoT Layer
 
-### IoT Platform
+The prototype uses:
 
-ThingSpeak was integrated as the cloud-based telemetry and visualization platform.
-
-The prototype used HTTP communication to transmit selected data generated by the monitoring components.
+- Wi-Fi
+- HTTP
+- ThingSpeak
+- Remote telemetry and visualization
 
 ### Alert Layer
 
-The system incorporated two types of alerts:
+Detection events can activate:
 
-- **Local alert:** a piezoelectric buzzer.
-- **Remote alert:** notification through an external SMS service.
-
-This allowed the prototype to demonstrate both immediate local feedback and remote notification capabilities.
+- **Local:** piezoelectric buzzer.
+- **Remote:** external SMS notification service.
 
 ---
 
-## How the Prototype Works
+# Technical Flow
 
-The prototype can be understood as a data acquisition and processing pipeline.
-
-<img src="assets/data_acquisition.jpg" alt="Data Acquisition and Processing"/>
-
-### 1. Visual Monitoring
-
-The camera provides visual information that is processed on the Raspberry Pi.
-
-The computer vision pipeline uses facial landmarks to obtain information about the eyes.
-
-<img src="assets/visual_monitoring.jpg" alt="Visual Monitoring"/>
-
-I implemented the computer vision pipeline using Python, OpenCV and MediaPipe.
-
-I also implemented EAR-based eye analysis as an indicator for evaluating eye closure.
-
----
-
-### 2. Physiological Monitoring
-
-The physiological monitoring component uses an AD8232 ECG sensor connected to an ESP32.
-
-<img src="assets/physiological_monitoring.jpg" alt="Physiological Monitoring"/>
-
-I developed the heart-rate monitoring module using an ESP32 and an AD8232 ECG sensor.
-
-I implemented the acquisition and processing of physiological signal information required to obtain heart-rate data.
-
----
-
-### 3. IoT Connectivity
-
-The prototype used Wi-Fi connectivity and HTTP communication to transmit selected telemetry.
-
-<img src="assets/iot_connectivity.jpg" alt="IoT Connectivity"/>
-
-I implemented the IoT communication layer and integrated ThingSpeak for remote telemetry and visualization.
-
----
-
-### 4. Alert Mechanisms
-
-When the detection logic identifies a condition relevant to the prototype, the system can trigger an alert.
-
-<img src="assets/detection_event.jpg" alt="Detection Event"/>
-
-I implemented a local audio alert mechanism using a piezoelectric buzzer.
-
-I also integrated an external SMS notification service to provide remote notifications.
-
----
-
-## My Engineering Contribution
-
-I worked across the prototype's development lifecycle, from system analysis and architecture design to implementation, integration and validation.
-
-### System Design
-
-I:
-
-- Defined the functional requirements of the prototype.
-- Designed the overall IoT architecture.
-- Defined the main hardware and software components.
-- Designed the interaction between sensing, processing, connectivity and alert components.
+<img src="assets/data_acquisition_v2.jpg" alt="Data Acquisition and Processing v2"/>
 
 ### Computer Vision
 
-I:
+<img src="assets/visual_monitoring.jpg" alt="Visual Monitoring"/>
 
-- Developed the visual monitoring module.
-- Implemented the computer vision pipeline using Python.
-- Integrated OpenCV and MediaPipe.
-- Implemented facial landmark-based eye analysis.
-- Implemented Eye Aspect Ratio (EAR) analysis for eye-closure evaluation.
+The visual pipeline uses **Python, OpenCV and MediaPipe** to process camera input and obtain facial landmarks.
 
-### Embedded Systems
+The eye analysis uses **Eye Aspect Ratio (EAR)** as an indicator for evaluating eye closure over time.
 
-I:
+### Physiological Monitoring
 
-- Developed the embedded software for the ESP32.
-- Integrated the AD8232 ECG sensor.
-- Implemented physiological signal acquisition.
-- Implemented heart-rate data processing.
-- Implemented wireless communication for telemetry.
+<img src="assets/physiological_monitoring.jpg" alt="Physiological Monitoring"/>
 
-### IoT
+The physiological subsystem uses an **AD8232 ECG sensor connected to an ESP32** to acquire and process signal information used for heart-rate monitoring.
 
-I:
+### IoT Connectivity
 
-- Implemented Wi-Fi connectivity.
-- Implemented HTTP-based communication.
-- Integrated ThingSpeak for telemetry and visualization.
-- Designed the data flow between edge devices and the IoT platform.
+<img src="assets/iot_connectivity.jpg" alt="IoT Connectivity"/>
+
+Selected telemetry is transmitted through **Wi-Fi and HTTP** to ThingSpeak for remote visualization.
 
 ### Alerting
 
-I:
+<img src="assets/detection_event_v2.jpg" alt="Detection Event v2"/>
 
-- Implemented the local buzzer-based alert mechanism.
+The detection logic connects the monitoring pipeline with local and remote notification mechanisms.
+
+---
+
+# My Engineering Contribution
+
+I worked across the prototype's development lifecycle, from **requirements and architecture design through implementation, integration and validation**.
+
+### System Design
+
+- Defined functional requirements.
+- Designed the overall IoT architecture.
+- Defined the main hardware and software components.
+- Designed the interaction between sensing, processing, communication and alert layers.
+
+### Computer Vision
+
+- Developed the visual monitoring module.
+- Implemented the Python processing pipeline.
+- Integrated OpenCV and MediaPipe.
+- Implemented facial landmark-based eye analysis.
+- Implemented EAR-based eye-closure evaluation.
+
+### Embedded Systems
+
+- Developed the ESP32 embedded software.
+- Integrated the AD8232 ECG sensor.
+- Implemented physiological signal acquisition and processing.
+- Implemented heart-rate monitoring.
+- Implemented wireless communication.
+
+### IoT
+
+- Implemented Wi-Fi connectivity.
+- Implemented HTTP-based communication.
+- Integrated ThingSpeak telemetry.
+- Designed the data flow between edge devices and the IoT platform.
+
+### Alerting & Integration
+
+- Implemented the local buzzer alert.
 - Integrated an external SMS notification service.
-- Connected the detection logic with the prototype's alert mechanisms.
-
-### System Integration
-
-I:
-
-- Integrated the Raspberry Pi and ESP32 components.
-- Integrated visual and physiological monitoring.
-- Connected the sensing components with the IoT communication layer.
-- Integrated local and remote alert mechanisms into the overall prototype.
+- Integrated Raspberry Pi and ESP32 subsystems.
+- Connected monitoring, detection, telemetry and alert components.
 
 ### Validation
 
-I:
-
-- Designed and executed functional tests for individual components.
-- Tested the monitoring modules.
-- Tested IoT communication.
-- Tested alert behavior.
+- Designed and executed functional tests
+- Tested individual monitoring components.
+- Tested IoT communication and telemetry.
+- Tested local and remote alert behavior.
 - Evaluated the integrated prototype under controlled scenarios.
 
 ---
 
 ## Technology Stack
 
-### Programming Languages
-
-- Python
-- C/C++
-
-### Computer Vision
-
-- OpenCV
-- MediaPipe
-- Facial landmark analysis
-- Eye Aspect Ratio (EAR)
-
-### Embedded Systems
-
-- ESP32
-- Arduino development environment
-- Raspberry Pi 4
-- GPIO
-- AD8232 ECG sensor
-
-### IoT
-
-- Wi-Fi
-- HTTP
-- ThingSpeak
-
-### Hardware
-
-- Raspberry Pi 4
-- Raspberry Pi Camera
-- ESP32
-- AD8232 ECG sensor
-- Piezoelectric buzzer
-
-### Notifications
-
-- External SMS notification service
+| Area | Technologies |
+|------|--------------|
+| **Languages** | Python · C/C++ |
+| **Computer Vision** | OpenCV · MediaPipe · Face Mesh · EAR |
+| **Embedded** | ESP32 · Arduino · Raspberry Pi 4 · GPIO |
+| **Physiological Sensing** | AD8232 ECG |
+| **IoT** | Wi-Fi · HTTP · ThingSpeak |
+| **Hardware** | Raspberry Pi Camera · ESP32 · AD8232 · Piezoelectric Buzzer |
+| **Notifications** | External SMS Notification Service |
 
 ---
 
 ## Validation
 
-The prototype was evaluated through component-level and integrated functional tests.
-
-The validation process included:
+The prototype was evaluated through **component-level and integrated functional tests**.
 
 <img src="assets/validation.jpg" alt="Validation"/>
 
-The testing activities focused on verifying:
+Testing focused on:
 
-- Visual monitoring behavior.
-- Eye-state analysis.
-- Physiological data acquisition.
+- Visual monitoring and eye-state analysis.
+- Physiological signal acquisition.
 - Heart-rate monitoring.
-- IoT connectivity.
-- Data transmission.
+- IoT connectivity and data transmission.
 - Local alert activation.
 - Remote notification behavior.
-- Interaction between the different prototype components.
+- Interaction between the different subsystems.
 
-The purpose of this validation was to evaluate the behavior of the technological prototype under controlled conditions rather than to establish a production-ready or certified safety system.
+Validation was performed under **controlled scenarios** to evaluate the behavior of the technological prototype.
+
+The results were not intended to establish clinical validity, production readiness or certification as a motorcycle safety system.
 
 ---
 
-## Engineering Learnings
+# Engineering Learnings
 
-Developing this prototype provided practical experience across several areas of software and systems engineering.
+This project provided hands-on experience integrating multiple engineering domains into a single distributed prototype.
 
-### Embedded Systems
+### Systems Integration
 
-Working with heterogeneous hardware demonstrated the importance of designing clear boundaries between sensing, processing, communication and application logic.
-
-Resource and hardware constraints also influenced implementation decisions and required consideration of the capabilities of each processing platform.
+Designing interfaces between heterogeneous hardware and software components reinforced the importance of clear responsibilities and well-defined data flows.
 
 ### Computer Vision
 
-Implementing eye-state analysis demonstrated how computer vision systems can be affected by environmental conditions such as lighting, camera positioning and the quality of the captured image.
+Real-world factors such as lighting, camera positioning and image quality highlighted the challenges involved in building robust visual detection systems.
 
-This highlighted the importance of considering real-world conditions when designing detection logic.
+### Embedded & IoT Systems
 
-### Physiological Signal Processing
+The project provided practical experience with resource-constrained devices, sensor acquisition, wireless communication, HTTP telemetry and edge processing.
 
-Working with ECG data provided practical experience in acquiring and processing physiological signals and transforming raw sensor information into useful system-level information.
+### Physiological Data
 
-### IoT Integration
-
-Integrating edge devices with a cloud telemetry platform provided experience with:
-
-- Wireless communication.
-- HTTP-based data transmission.
-- Telemetry flows.
-- Remote visualization.
-- Dependency on network connectivity.
-
-### System Integration
-
-Combining independent hardware and software components into a single prototype reinforced the importance of well-defined interfaces and responsibilities between system components.
-
-The project also demonstrated that successful integration requires consideration of the complete data flow rather than treating each component as an isolated implementation.
+Working with ECG signals demonstrated the additional considerations required when transforming raw sensor data into meaningful system-level information.
 
 ---
 
@@ -339,14 +245,10 @@ The project also demonstrated that successful integration requires consideration
 
 This project was developed as an **academic technological prototype and proof of concept**.
 
-It was not developed as a production-ready commercial product or as a certified motorcycle safety device.
-
 ### In Scope
 
-The project covered:
-
 - Microsleep-related indicator detection.
-- Visual monitoring.
+- Computer vision.
 - Eye-state analysis.
 - Physiological monitoring.
 - Heart-rate monitoring.
@@ -359,98 +261,94 @@ The project covered:
 
 ### Out of Scope
 
-The project did not include:
-
-- Structural design of a motorcycle helmet.
-- Manufacturing of a motorcycle helmet.
-- Certification or homologation of a motorcycle helmet.
-- Regulatory approval as a motorcycle safety device.
+- Motorcycle helmet structural design.
+- Helmet manufacturing.
+- Helmet certification or homologation.
+- Regulatory approval as a safety device.
 - Commercial production.
 - Production deployment.
-- Clinical diagnosis.
+- Clinical or medical diagnosis.
 
-The physical prototype was conceived as technology that could potentially be integrated into a motorcycle helmet. The project itself did not attempt to design or manufacture the helmet.
+The prototype was designed with potential integration into a motorcycle helmet in mind, but the project itself did **not** design or manufacture the helmet.
 
 ---
 
 ## Future Directions
 
-The prototype provides a foundation for potential future development.
+Potential technical directions identified from the prototype include:
 
-Possible directions include:
+- More robust detection under varying environmental conditions.
+- Sensor-fusion strategies.
+- Adaptive detection thresholds.
+- Improved operation under intermittent connectivity.
+- Greater edge-processing capabilities.
+- More efficient resource utilization.
+- Production-oriented hardware integration.
+- Broader controlled validation.
+- Evaluation of applicable safety and regulatory requirements.
 
-- Improving detection robustness under different environmental conditions.
-- Exploring sensor-fusion strategies.
-- Improving adaptive detection thresholds.
-- Increasing reliability under intermittent connectivity.
-- Expanding offline processing capabilities.
-- Optimizing edge-device resource usage.
-- Exploring more production-oriented hardware integration.
-- Conducting broader validation with additional controlled scenarios.
-- Evaluating regulatory and safety requirements before considering a production-oriented implementation.
+These represent **future development opportunities**, not functionality claimed as part of the original implementation.
 
-These items represent potential future work and were not necessarily implemented as part of the original 2024 prototype.
+---
+
+---
+
+# Repository Scope
+
+This repository is a **professional portfolio case study**, not a reproduction of the original academic project.
+
+It documents:
+
+- The engineering problem.
+- The technical approach.
+- The system architecture.
+- The technology stack.
+- My personal engineering contribution.
+- Key implementation concepts.
+- Engineering learnings.
+- Scope and limitations.
+
+The repository intentionally does **not** contain:
+
+- Original source code
+- Original academic diagrams
+- Thesis or academic documents
+- Institutional deliverables
+- Credentials or API keys
+- Unpublished academic materials
+- Original project assets
+
+Any diagrams included in this repository are conceptual representations created specifically for portfolio documentation.
+
+---
+
+# Intellectual Property
+
+The original project was submitted as a degree project to **Institución Universitaria Colegio Mayor del Cauca**.
+
+The original implementation and academic materials are subject to the intellectual-property arrangements applicable to the submitted work and are therefore not redistributed through this repository.
+
+This repository documents my **technical experience and personal contribution** without reproducing the original institutional deliverables.
 
 ---
 
 ## Academic Context
 
-This project was developed and presented in 2024 as part of my **Technology in Software Development** degree at **Institución Universitaria Colegio Mayor del Cauca**.
+**Technology in Software Development — 2024**
 
-**Project author and developer**
+**Institución Universitaria Colegio Mayor del Cauca**
 
-Diego Felipe Fernández Meneses
+**Author & Developer:** Diego Felipe Fernández Meneses
 
-**Academic Director**
+**Academic Director:** Stivens Antonio Dionizio Solarte
 
-Stivens Antonio Dionizio Solarte
-
-**Academic Co-director**
-
-Álvaro Hernán Pito Burbano
-
-The project represents an academic proof of concept developed to explore the application of IoT, embedded systems, computer vision and physiological monitoring to a real-world safety-related problem.
-
----
-
-## Repository Scope
-
-This repository is intended to document the engineering aspects of the project as part of my professional portfolio.
-
-It focuses on:
-
-- The problem addressed.
-- The technical approach.
-- The system architecture.
-- The technologies used.
-- My engineering contribution.
-- The development process.
-- The lessons learned.
-- The project's scope and limitations.
-
-The repository does **not** reproduce the complete academic project.
-
-The original source code, institutional documentation, original diagrams, academic deliverables and other project assets are intentionally not included.
-
-The architecture and technical diagrams presented in this repository are conceptual representations created for portfolio documentation and are not reproductions of the original institutional deliverables.
-
----
-
-## Intellectual Property Notice
-
-The original project was submitted as an academic degree project to **Institución Universitaria Colegio Mayor del Cauca**.
-
-The original implementation and academic materials are subject to the intellectual-property arrangements established for the submitted project and are therefore not distributed through this repository.
-
-This repository should be understood as a **professional portfolio case study** documenting my technical experience and personal contribution to the project, rather than as a redistribution of the original academic deliverables.
-
-No original source code, institutional documents, credentials, API keys, original academic diagrams or unpublished academic materials are included.
+**Academic Co-director:** Álvaro Hernán Pito Burbano
 
 ---
 
 ## Project Status
 
-**Completed — Academic Prototype, 2024**
+**Completed · Academic Prototype · 2024**
 
 The original academic development was completed and presented in 2024.
 
